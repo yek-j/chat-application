@@ -30,7 +30,12 @@ public class SecurityConfig {
                             .anyRequest().authenticated()
                 )
                 .formLogin((login) -> {
-                    login.defaultSuccessUrl("/main", true);
+                    login
+                            .loginPage("/users/login")
+                            .usernameParameter("username")
+                            .passwordParameter("password")
+                            .defaultSuccessUrl("/main", true)
+                            .failureUrl("/users/login");
                 }).build();
     }
 
