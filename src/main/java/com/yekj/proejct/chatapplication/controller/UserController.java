@@ -2,7 +2,6 @@ package com.yekj.proejct.chatapplication.controller;
 
 import com.yekj.proejct.chatapplication.model.User;
 import com.yekj.proejct.chatapplication.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
