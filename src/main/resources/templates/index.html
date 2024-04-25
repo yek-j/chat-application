@@ -8,6 +8,42 @@
     <title>Chat-Application</title>
 </head>
 <body>
-    채팅 index 페이지
+    <div id="chat-area">
+        <ul id="messages"></ul>
+        <input type="text" id="input-msg"/>
+        <button id="send">보내기</button>
+    </div>
 </body>
+<script>
+    const msgList = document.getElementById('messages');
+    const msgInput = document.getElementById('input-msg');
+
+    const socket = new WebSocket('ws://localhost:9797/chat');
+
+    socket.onopen = function() {
+        console.log('Websocket 서버 연결');
+        const sendBtn = document.getElementById('send');
+        sendBtn.addEventListener('click', () => {
+            const msg = msgInput.value;
+            if (msg) {
+                socket.send(JSON.stringify({msg}));
+                msgInput.value = '';
+            }
+        });
+    }
+    socket.onmessage = function (e) {
+        const chatMessage = JSON.parse(e.data);
+        const msgEle = document.createElement('li');
+        msgEle.textContent = chatMessage.msg;
+        msgList.appendChild(msgEle);
+    }
+
+    socket.onerror = function (err) {
+        console.error('WebSocket error: ', err);
+    }
+
+    socket.onclose = function() {
+        console.log('close');
+    };
+</script>
 </html>
