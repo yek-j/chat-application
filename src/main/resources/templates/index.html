@@ -6,6 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat-Application</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 </head>
 <body>
     <div id="chat-area">
@@ -14,36 +16,5 @@
         <button id="send">보내기</button>
     </div>
 </body>
-<script>
-    const msgList = document.getElementById('messages');
-    const msgInput = document.getElementById('input-msg');
-
-    const socket = new WebSocket('ws://localhost:9797/chat');
-
-    socket.onopen = function() {
-        console.log('Websocket 서버 연결');
-        const sendBtn = document.getElementById('send');
-        sendBtn.addEventListener('click', () => {
-            const msg = msgInput.value;
-            if (msg) {
-                socket.send(JSON.stringify({msg}));
-                msgInput.value = '';
-            }
-        });
-    }
-    socket.onmessage = function (e) {
-        const chatMessage = JSON.parse(e.data);
-        const msgEle = document.createElement('li');
-        msgEle.textContent = chatMessage.msg;
-        msgList.appendChild(msgEle);
-    }
-
-    socket.onerror = function (err) {
-        console.error('WebSocket error: ', err);
-    }
-
-    socket.onclose = function() {
-        console.log('close');
-    };
-</script>
+<script src="/js/chat.js" type="application/javascript"></script>
 </html>
