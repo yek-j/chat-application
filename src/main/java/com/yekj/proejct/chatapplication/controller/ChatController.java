@@ -20,7 +20,6 @@ public class ChatController {
     @SendTo("/topic/greetings")
     public String handleGreetings(Principal principal) {
         String username = principal.getName();
-        log.info(username);
         return username + "님 환영합니다!";
     }
 
@@ -32,7 +31,6 @@ public class ChatController {
         } catch (Exception e) {
             return null;
         }
-
         return message;
     }
 }
