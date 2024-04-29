@@ -31,6 +31,6 @@ public class ChatController {
         } catch (Exception e) {
             return null;
         }
-        return message;
+        return principal.getName() + " : " + message;
     }
 }
