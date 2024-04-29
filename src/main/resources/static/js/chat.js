@@ -1,5 +1,6 @@
 const msgList = document.getElementById('messages');
 const msgInput = document.getElementById('input-msg');
+let welcomMessage = false;
 
 const socket = new StompJs.Client({
     brokerURL: 'ws://localhost:9797/chat'
@@ -9,20 +10,22 @@ socket.activate();
 socket.onConnect = (frame) => {
     console.log('Websocket 서버 연결');
 
-    const msgEle = document.createElement('li')
+    if(welcomMessage === false) {
+        // 입장 메시지
+        socket.publish({
+            destination: "/app/greetings",
+        });
 
-    // 입장 메시지
-    socket.publish({
-        destination: "/app/greetings",
-    });
-
-    socket.subscribe('/topic/greetings', (greeting) => {
-        msgEle.textContent = greeting.body;
-        msgList.appendChild(msgEle);
-    });
-    
+        socket.subscribe('/topic/greetings', (greeting) => {
+            let welcomEle = document.createElement('li')
+            welcomEle.textContent = greeting.body;
+            msgList.appendChild(welcomEle);
+            welcomMessage = true;
+        });
+    }
     // 사용자가 보낸 채팅 메시지
     socket.subscribe('/topic/message', (message) => {
+        let msgEle = document.createElement('li')
         msgEle.textContent = message.body
         msgList.appendChild(msgEle);
     });
@@ -44,7 +47,8 @@ $(document).ready(function() {
         if (msg) {
             socket.publish({
                 destination: "/app/message",
-                body: JSON.stringify(msg)
+                body: msg,
+                headers: { 'content-type': 'text/plain' }
             })
             msgInput.value = '';
         }
