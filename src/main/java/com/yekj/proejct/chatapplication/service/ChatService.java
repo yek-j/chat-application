@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,16 @@ public class ChatService {
         } else {
             throw new Exception("사용자를 찾을 수 없습니다.");
         }
+    }
+
+    public String[] getChatMessages() {
+        List<ChatMessage> chatMessageList = chatRepository.findAll();
+
+        String[] messages = new String[chatMessageList.size()];
+        for (int i = 0; i < chatMessageList.size(); i++) {
+            messages[i] = chatMessageList.get(i).getSender().getUsername() + " : " + chatMessageList.get(i).getMessage();
+        }
+
+        return messages;
     }
 }

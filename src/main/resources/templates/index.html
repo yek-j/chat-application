@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,11 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 </head>
 <body>
-    <div id="chat-area">
-        <ul id="messages"></ul>
-        <input type="text" id="input-msg"/>
-        <button id="send">보내기</button>
-    </div>
+    <ul id="messages">
+        <li th:each="item : ${messages}" >
+           <span th:text="${item}"></span>
+        </li>
+    </ul>
+    <input type="text" id="input-msg"/>
+    <button id="send">보내기</button>
 </body>
 <script src="/js/chat.js" type="application/javascript"></script>
 </html>

@@ -9,7 +9,8 @@ socket.activate();
 
 socket.onConnect = (frame) => {
     console.log('Websocket 서버 연결');
-
+    setTimeout(() => console.log("로딩 중"), 3000);
+    
     if(welcomMessage === false) {
         // 입장 메시지
         socket.publish({
@@ -17,17 +18,21 @@ socket.onConnect = (frame) => {
         });
 
         socket.subscribe('/topic/greetings', (greeting) => {
-            let welcomEle = document.createElement('li')
+            let liEle = document.createElement('li')
+            let welcomEle = document.createElement('span');
             welcomEle.textContent = greeting.body;
-            msgList.appendChild(welcomEle);
+            liEle.appendChild(welcomEle)
+            msgList.appendChild(liEle);
             welcomMessage = true;
         });
     }
     // 사용자가 보낸 채팅 메시지
     socket.subscribe('/topic/message', (message) => {
-        let msgEle = document.createElement('li')
+        let liEle = document.createElement('li')
+        let msgEle = document.createElement('span');
         msgEle.textContent = message.body
-        msgList.appendChild(msgEle);
+        liEle.appendChild(msgEle);
+        msgList.appendChild(liEle);
     });
 }
 

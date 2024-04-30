@@ -34,7 +34,7 @@ public class SecurityConfig {
                             .loginPage("/users/login")
                             .usernameParameter("username")
                             .passwordParameter("password")
-                            .defaultSuccessUrl("/main", true)
+                            .defaultSuccessUrl("/", true)
                             .failureUrl("/users/login");
                 }).build();
     }
