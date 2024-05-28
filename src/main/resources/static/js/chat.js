@@ -1,9 +1,12 @@
 const msgList = document.getElementById('messages');
 const msgInput = document.getElementById('input-msg');
+const scriptElement = document.querySelector('script[data-th-url]');
+const url = scriptElement.getAttribute('data-th-url');;
+
 let welcomMessage = false;
 
 const socket = new StompJs.Client({
-    brokerURL: 'ws://localhost:9797/chat'
+    brokerURL: url
 });
 socket.activate();
 
